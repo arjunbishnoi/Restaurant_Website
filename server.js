@@ -1,57 +1,53 @@
-const express = require("express")
-const app = express()
+const express = require('express');
+const exphbs = require('express-handlebars');
+const session = require('express-session');
+const mongoose = require('mongoose');
+require('dotenv').config();
 const port = process.env.PORT || 8080
 
-// tells express to use EJS
-app.set("view engine", "ejs")
+const app = express()
+
+app.engine('hbs', exphbs.engine({
+        extname: 'hbs',             // File extension
+        defaultLayout: false }));   // Disable default layout
+app.set('view engine', 'hbs');  // Set Handlebars as the template engine
+app.set('views', './views');    // Specify views directory
 
 // tells express that this application will contain
 // endpoints that receives data from a form
 app.use(express.urlencoded({ extended: true }))
 
-// database
-const mongoose = require("mongoose");
-require("dotenv").config();
+// Additional variables and definitions
 
-const Test = require("./models/project_test.js")
 
-// http://localhost:8080/
+// HOME PAGE
 app.get("/", (req, res) => {
-    return res.render("home.ejs")
-})
-
-app.get("/insert", (req, res) => {
-    return res.render("addform.ejs")
-})
-
-app.post("/receivedata", async (req, res) => {
-    console.log("DEBUG: Data from form fields")
-    console.log(req.body)
-
-    const result = await Test.create({
-        test1: req.body.test1textbox,
-        test2: parseFloat(req.body.test2textbox),
-        // TODO: Update to use req.body.tutioncheckbox
-        test3: false
-    })
-    console.log(result)
-    return res.send(`Student inserted, look for document id: ${result._id}`)
-
-})
-
-// http://localhost:8080/getAll
-app.get("/getAll", async (req, res) => {
-    const testList = await Test.find()
-    console.log("DEBUG:")
-    console.log(testList)
-    return res.render("all.ejs", { s: testList })
+    return res.render("home.hbs")
 })
 
 
+// section 1 - Admin Page
+app.get("/admin", (req, res) => {
+    return res.render("./admin/admin.hbs")
+})
+
+
+// section 2 - Delivery Driver Page
+app.get("/deliver", (req, res) => {
+    return res.render("./deliver/deliver.hbs")
+})
+
+
+// section 3 - Menu Page
+app.get("/menu", (req, res) => {
+    return res.render("./menu/menu.hbs")
+})
+
+
+// Starting Server
 const startServer = async () => {
     console.log(`The server is running on http://localhost:${port}`)
     console.log(`Press CTRL + C to exit`)
-
 
     // MongoDB Connection
     try {
@@ -62,4 +58,3 @@ const startServer = async () => {
     }
 }
 app.listen(port, startServer)
-
