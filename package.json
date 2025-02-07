@@ -11,6 +11,10 @@
     "url": "git+https://github.com/arjunbishnoi/Restaurant_Website.git"
   },
   "author": "Arjun Bishnoi",
+  "contributors": [
+    "Cem Sennaroglu",
+    "ETA Cyril Nelson"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/arjunbishnoi/Restaurant_Website/issues"
