@@ -2,7 +2,7 @@
   "name": "restaurant_website",
   "version": "1.0.0",
   "description": "Website for the group assignment #2 Full Stack",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "bash test.sh"
   },
