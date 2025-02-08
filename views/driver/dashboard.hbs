@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Driver Dashboard</title>
+  <style>
+    .order {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Your Orders</h1>
+  {{#each orders}}
+  <div class="order">
+    <h3>{{this.customerName}}</h3>
+    <p>Status: {{this.status}}</p>
+  </div>
+  {{else}}
+  <p>No active orders</p>
+  {{/each}}
+</body>
+
+</html>
