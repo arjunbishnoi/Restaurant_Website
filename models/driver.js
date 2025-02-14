@@ -1,8 +1,8 @@
 // -------------------------------
 // DRIVER MODEL (MongoDB Schema)
 // Handles delivery driver accounts
+// Includes secure password hashing and validation
 // -------------------------------
-
 // 1. LIBRARY IMPORTS
 const mongoose = require("mongoose"); // MongoDB ORM
 const bcrypt = require("bcrypt");     // Password hashing
@@ -14,7 +14,8 @@ const driverSchema = new mongoose.Schema({
     type: String, 
     required: [true, "Username is required"], // Custom error message
     unique: true,
-    trim: true // Removes whitespace
+    trim: true, // Removes whitespace
+    index: true // Add index for faster lookups
   },
   
   // Securely hashed password
@@ -40,7 +41,8 @@ const driverSchema = new mongoose.Schema({
   licensePlate: {
     type: String,
     required: [true, "License plate is required"],
-    uppercase: true // Store as uppercase
+    uppercase: true, // Store as uppercase
+    match: [/^[A-Z0-9]{6,8}$/, "License plate must be 6-8 alphanumeric characters"]
   }
 }, { 
   timestamps: true // Auto-add createdAt/updatedAt fields
@@ -67,9 +69,13 @@ driverSchema.pre('save', async function (next) {
 // Used during login to validate credentials
 driverSchema.methods.comparePassword = async function (enteredPassword) {
   try {
-    return await bcrypt.compare(enteredPassword, this.password);
+    const isMatch = await bcrypt.compare(enteredPassword, this.password);
+    if (!isMatch) {
+      throw new Error("Invalid password");
+    }
+    return isMatch;
   } catch (err) {
-    throw new Error("Password comparison failed");
+    throw new Error(`Password comparison failed: ${err.message}`);
   }
 };
 
