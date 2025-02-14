@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +15,8 @@
     /* Body styling */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #000;
-      /* Black background */
-      color: #fff;
-      /* White text */
+      background-color: #000; /* Black background */
+      color: #fff; /* White text */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,14 +30,11 @@
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #121212;
-      /* Slightly lighter black for contrast */
+      background-color: #121212; /* Slightly lighter black for contrast */
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #333;
-      /* Subtle border for separation */
     }
 
     .navbar h1 {
@@ -50,8 +44,7 @@
     }
 
     .navbar .logout-btn {
-      background-color: #ff4d4d;
-      /* Pale red for logout button */
+      background-color: #fcabab; /* Pale red for logout button */
       color: white;
       font-size: 1rem;
       padding: 8px 16px;
@@ -62,23 +55,21 @@
     }
 
     .navbar .logout-btn:hover {
-      background-color: #e53935;
-      /* Darker red on hover */
+      background-color: #fa7e7c; /* Darker red on hover */
     }
 
     /* Dashboard container */
     .dashboard-container {
-      background-color: #121212;
-      /* Slightly lighter black for contrast */
       border-radius: 15px;
       padding: 40px;
       width: 100%;
-      max-width: 800px;
+      max-width: 1200px;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-      /* Subtle white glow */
-      margin-top: 80px;
-      /* Space for the navbar */
+      margin-top: 80px; /* Space for the navbar */
+    }
+
+    .dashboard-container h1{
+margin-bottom: 45px;
     }
 
     /* Sections */
@@ -99,9 +90,10 @@
     }
 
     ul li {
-      background-color: #222;
+      border: 1px solid white;
       margin-bottom: 10px;
       padding: 15px;
+      margin-top: 15px;
       border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s ease;
@@ -111,17 +103,25 @@
       background-color: #333;
     }
 
-    ul li a {
-      color: #64b5f6;
-      /* Soft blue accent for links */
-      text-decoration: none;
+    ul li strong {
       font-size: 1rem;
-      transition: color 0.3s ease;
+      margin-right: 10px;
     }
 
-    ul li a:hover {
-      color: #ff6f61;
-      /* Accent color on hover */
+    ul li button {
+      margin-top: 15px;
+      background-color: #64b5f6; /* Soft blue accent for buttons */
+      color: white;
+      font-size: 1rem;
+      padding: 8px 16px; /* Consistent padding for all buttons */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    ul li button:hover {
+      background-color: #42a5f5; /* Darker blue on hover */
     }
 
     /* No orders message */
@@ -130,18 +130,33 @@
       color: #aaa;
     }
 
-    /* Form styling */
-    form {
-      margin-top: 10px;
-      display: inline-block;
+    /* Responsive layout */
+    .order-sections {
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
     }
 
-    input[type="file"] {
-      margin-right: 10px;
+    .order-section {
+      background-color: #171717; /* Dark gray background for sections */
+      border-radius: 10px;
+      padding: 20px;
+      flex: 1;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .order-sections {
+        flex-direction: column;
+      }
+
+      .order-section {
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
-
 <body>
   <!-- Navbar -->
   <div class="navbar">
@@ -155,50 +170,50 @@
   <div class="dashboard-container">
     <h1>Driver Dashboard</h1>
 
-    <!-- Available Orders Section -->
-    <div class="section">
-      <h2>Available Orders</h2>
-      <ul>
-        {{#if availableOrders.length}}
-        {{#each availableOrders}}
-        <li>
-          <strong>Order ID:</strong> {{this._id}}<br>
-          <strong>Customer:</strong> {{this.customerName}}<br>
-          <strong>Address:</strong> {{this.deliveryAddress}}<br>
-          <form action="/driver/orders/{{this._id}}/assign" method="POST" style="display: inline;">
-            <button type="submit">Pick This Order</button>
-          </form>
-        </li>
-        {{/each}}
-        {{else}}
-        <li class="no-orders">No available orders at this time.</li>
-        {{/if}}
-      </ul>
-    </div>
+    <!-- Order Sections -->
+    <div class="order-sections">
+      <!-- Available Orders Section -->
+      <div class="order-section">
+        <h2>Available Orders</h2>
+        <ul>
+          {{#if availableOrders.length}}
+            {{#each availableOrders}}
+              <li>
+                <strong>Order ID:</strong> {{this._id}}<br>
+                <strong>Customer:</strong> {{this.customerName}}<br>
+                <strong>Address:</strong> {{this.deliveryAddress}}<br>
+                <form action="/driver/orders/{{this._id}}/assign" method="POST" style="display: inline;">
+                  <button type="submit">Pick This Order</button>
+                </form>
+              </li>
+            {{/each}}
+          {{else}}
+            <li class="no-orders">No available orders at this time.</li>
+          {{/if}}
+        </ul>
+      </div>
 
-    <!-- Picked-Up Orders Section -->
-    <div class="section">
-      <h2>Picked-Up Orders</h2>
-      <ul>
-        {{#if pickedUpOrders.length}}
-        {{#each pickedUpOrders}}
-        <li>
-          <strong>Order ID:</strong> {{this._id}}<br>
-          <strong>Customer:</strong> {{this.customerName}}<br>
-          <strong>Address:</strong> {{this.deliveryAddress}}<br>
-          <form action="/driver/orders/{{this._id}}/fulfill" method="POST" enctype="multipart/form-data"
-            style="display: inline;">
-            {{!-- <input type="file" name="proofOfDelivery" required> --}}
-            <button type="submit">Mark as Delivered</button>
-          </form>
-        </li>
-        {{/each}}
-        {{else}}
-        <li class="no-orders">No picked-up orders at this time.</li>
-        {{/if}}
-      </ul>
+      <!-- Picked-Up Orders Section -->
+      <div class="order-section">
+        <h2>Picked-Up Orders</h2>
+        <ul>
+          {{#if pickedUpOrders.length}}
+            {{#each pickedUpOrders}}
+              <li>
+                <strong>Order ID:</strong> {{this._id}}<br>
+                <strong>Customer:</strong> {{this.customerName}}<br>
+                <strong>Address:</strong> {{this.deliveryAddress}}<br>
+                <form action="/driver/orders/{{this._id}}/fulfill" method="POST" style="display: inline;">
+                  <button type="submit">Mark as Delivered</button>
+                </form>
+              </li>
+            {{/each}}
+          {{else}}
+            <li class="no-orders">No picked-up orders at this time.</li>
+          {{/if}}
+        </ul>
+      </div>
     </div>
   </div>
 </body>
-
 </html>
