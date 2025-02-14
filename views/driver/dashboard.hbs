@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Driver Dashboard</title>
   <style>
-    /* Reset default browser styles */
+    /* Reset default browser styles for consistency */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Body styling */
+    /* Body styling with a dark theme */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #000; /* Black background */
-      color: #fff; /* White text */
+      background-color: #000; /* Black background for a sleek look */
+      color: #fff; /* White text for contrast */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -30,19 +30,21 @@
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #121212; /* Slightly lighter black for contrast */
+      background-color: #121212; /* Slightly lighter black for visibility */
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    /* Navbar title styling */
     .navbar h1 {
       font-size: 1.5rem;
       margin: 0;
       letter-spacing: 1px;
     }
 
+    /* Logout button styling */
     .navbar .logout-btn {
       font-size: 1rem;
       padding: 8px 16px;
@@ -52,41 +54,45 @@
       transition: background-color 0.3s ease;
     }
 
+    /* Hover effect for logout button */
     .navbar .logout-btn:hover {
-      background-color: #fa7e7c; /* Darker red on hover */
+      background-color: #fa7e7c; /* Darker red on hover for feedback */
     }
 
-    /* Dashboard container */
+    /* Main dashboard container */
     .dashboard-container {
       border-radius: 15px;
       padding: 40px;
       width: 100%;
       max-width: 1200px;
       text-align: center;
-      margin-top: 80px; /* Space for the navbar */
+      margin-top: 80px; /* Space for the fixed navbar */
     }
 
-    .dashboard-container h1{
-margin-bottom: 45px;
+    /* Styling for the main dashboard title */
+    .dashboard-container h1 {
+      margin-bottom: 45px;
     }
 
-    /* Sections */
+    /* Section styling for available and picked-up orders */
     .section {
       margin-bottom: 30px;
     }
 
+    /* Section title styling */
     .section h2 {
       font-size: 1.5rem;
       margin-bottom: 15px;
       letter-spacing: 1px;
     }
 
-    /* Order list */
+    /* List styling for orders */
     ul {
       list-style: none;
       padding: 0;
     }
 
+    /* Individual order item styling */
     ul li {
       border: 1px solid rgb(83, 83, 83);
       margin-bottom: 10px;
@@ -97,66 +103,70 @@ margin-bottom: 45px;
       transition: border 0.3s ease;
     }
 
+    /* Hover effect for order items */
     ul li:hover {
-border: 1px solid rgb(137, 137, 137);
-  }
+      border: 1px solid rgb(137, 137, 137); /* Highlight border on hover */
+    }
 
+    /* Styling for order details */
     ul li strong {
       font-size: 1rem;
       margin-right: 10px;
     }
 
+    /* Button styling for actions (Pick This Order, Mark as Delivered) */
     ul li button {
       margin-top: 15px;
       background-color: #108ff7; /* Soft blue accent for buttons */
       color: white;
       font-size: 1rem;
-      padding: 8px 16px; /* Consistent padding for all buttons */
+      padding: 8px 16px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
+    /* Hover effect for buttons */
     ul li button:hover {
-background-color: #37a0f6;
+      background-color: #37a0f6; /* Slightly darker blue on hover */
     }
 
-    /* No orders message */
+    /* Message for when there are no orders */
     .no-orders {
       font-size: 1.2rem;
-      color: #aaa;
+      color: #aaa; /* Subtle gray for inactive text */
     }
 
-    /* Responsive layout */
+    /* Layout for order sections */
     .order-sections {
       display: flex;
       gap: 20px;
       justify-content: space-between;
     }
 
+    /* Styling for individual order sections */
     .order-section {
       background-color: #171717; /* Dark gray background for sections */
       border-radius: 10px;
       padding: 20px;
       flex: 1;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     }
 
-    /* Mobile responsiveness */
+    /* Responsive layout for smaller screens */
     @media (max-width: 768px) {
       .order-sections {
-        flex-direction: column;
+        flex-direction: column; /* Stack sections vertically on mobile */
       }
-
       .order-section {
-        margin-bottom: 20px;
+        margin-bottom: 20px; /* Add spacing between stacked sections */
       }
     }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar with welcome message and logout button -->
   <div class="navbar">
     <h1>Welcome, {{driver}}!</h1>
     <form action="/driver/logout" method="POST" style="display: inline;">
@@ -164,12 +174,13 @@ background-color: #37a0f6;
     </form>
   </div>
 
-  <!-- Main Content -->
+  <!-- Main content area -->
   <div class="dashboard-container">
     <h1>Driver Dashboard</h1>
 
-    <!-- Order Sections -->
+    <!-- Container for both order sections -->
     <div class="order-sections">
+
       <!-- Available Orders Section -->
       <div class="order-section">
         <h2>Available Orders</h2>

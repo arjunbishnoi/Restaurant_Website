@@ -29,13 +29,13 @@ router.post('/register', async (req, res) => {
   try {
     const { username, password, driverName, vehicleModel, licensePlate } = req.body;
 
-    // Check if the username already exists
+    // Check if the username already exists in the database
     const existingDriver = await Driver.findOne({ username });
     if (existingDriver) {
       return res.render('./driver/register.hbs', { error: 'Username already exists' });
     }
 
-    // Create a new driver
+    // Create a new driver account
     const newDriver = new Driver({
       username,
       password,
@@ -47,7 +47,7 @@ router.post('/register', async (req, res) => {
     // Save the new driver to the database
     await newDriver.save();
 
-    // Redirect to login page after successful registration
+    // Redirect to the login page after successful registration
     res.redirect('/driver/login');
   } catch (err) {
     console.error('Error during registration:', err.message);
@@ -64,18 +64,20 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    // Find the driver by username
     const driver = await Driver.findOne({ username });
 
-    // Check if the driver exists and the password is correct
+    // Validate the driver's credentials
     if (!driver || !(await driver.comparePassword(password))) {
       return res.render('./driver/home.hbs', { session: req.session, error: 'Invalid credentials' });
     }
 
-    // Set session variables
+    // Set session variables for the logged-in driver
     req.session.driverId = driver._id;
     req.session.driverName = driver.driverName;
 
-    // Redirect to the dashboard
+    // Redirect to the dashboard after successful login
     res.redirect('/driver/dashboard');
   } catch (err) {
     console.error('Error during login:', err.message);

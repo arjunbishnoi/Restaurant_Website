@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Driver Registration</title>
   <style>
-    /* Reset default browser styles */
+    /* Reset default browser styles for consistency */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Body styling */
+    /* Body styling with a dark theme */
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #000;
-      /* Black background */
-      color: #fff;
-      /* White text */
+      background-color: #000; /* Black background for a sleek look */
+      color: #fff; /* White text for contrast */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,35 +30,32 @@
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #121212;
-      /* Slightly lighter black for contrast */
+      background-color: #121212; /* Slightly lighter black for visibility */
       padding: 15px 20px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
+    /* Navbar title styling */
     .navbar h1 {
       font-size: 1.5rem;
       margin: 0;
     }
 
-    /* Registration container */
+    /* Registration container styling */
     .register-container {
-      background-color: #121212;
-      /* Slightly lighter black for contrast */
+      background-color: #121212; /* Slightly lighter black for contrast */
       border-radius: 15px;
       padding: 40px;
       width: 100%;
       max-width: 400px;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-      /* Subtle white glow */
-      margin-top: 80px;
-      /* Space for the navbar */
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* Subtle white glow */
+      margin-top: 80px; /* Space for the navbar */
     }
 
-    /* Heading */
+    /* Main heading styling */
     h1 {
       font-size: 2rem;
       margin-bottom: 20px;
@@ -75,7 +69,7 @@
       gap: 15px;
     }
 
-    /* Input fields */
+    /* Input fields styling */
     input[type="text"],
     input[type="password"] {
       width: 100%;
@@ -83,31 +77,28 @@
       border: none;
       border-radius: 8px;
       font-size: 1rem;
-      background-color: #222;
-      /* Dark gray background */
+      background-color: #222; /* Dark gray background */
       color: white;
       outline: none;
       transition: background-color 0.3s ease;
     }
 
+    /* Focus effect for input fields */
     input[type="text"]:focus,
     input[type="password"]:focus {
-      background-color: #333;
-      /* Slightly lighter gray on focus */
+      background-color: #333; /* Slightly lighter gray on focus */
     }
 
-    /* Placeholder styling */
+    /* Placeholder text styling */
     input::placeholder {
-      color: #aaa;
-      /* Light gray placeholder text */
+      color: #aaa; /* Light gray placeholder text */
       font-size: 1rem;
     }
 
-    /* Submit button (Register) */
+    /* Submit button (Register) styling */
     button[type="submit"] {
-      background-color: #2ce600;
-      /* Dark purple for register button */
-      color: BLACK;
+      background-color: #2ce600; /* Neon green for register button */
+      color: black; /* Black text for contrast */
       font-size: 1rem;
       font-weight: bolder;
       padding: 12px;
@@ -117,42 +108,41 @@
       transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
+    /* Hover effect for submit button */
     button[type="submit"]:hover {
       transform: scale(1.05);
-      background-color: white;
+      background-color: white; /* Brighter white on hover */
     }
 
-    /* Login instead link */
+    /* Login link styling */
     .login-link {
       margin-top: 15px;
       font-size: 0.9rem;
-      color: rgb(237, 237, 237);
-      /* Soft blue accent for links */
+      color: rgb(237, 237, 237); /* Soft gray for links */
       text-decoration: none;
       transition: color 0.3s ease;
     }
 
+    /* Hover effect for login link */
     .login-link:hover {
-      color: #64b5f6;
-      /* Accent color on hover */
+      color: #64b5f6; /* Soft blue accent on hover */
     }
 
-    /* Error message */
+    /* Error message styling */
     .error-message {
-      color: #ff4d4d;
+      color: #ff4d4d; /* Red text for error messages */
       margin-top: 10px;
       font-size: 0.9rem;
     }
   </style>
 </head>
-
 <body>
-  <!-- Navbar -->
+  <!-- Navbar with the section title -->
   <div class="navbar">
     <h1>Driver Section</h1>
   </div>
 
-  <!-- Main Content -->
+  <!-- Main content area -->
   <div class="register-container">
     <h1>Register as a Driver</h1>
     <form action="/driver/register" method="POST">
@@ -164,11 +154,10 @@
       <button type="submit">Sign Up</button>
     </form>
     {{#if error}}
-    <p class="error-message">{{error}}</p>
+      <p class="error-message">{{error}}</p>
     {{/if}}
     <br>
     <a href="/driver/" class="login-link">Login instead?</a>
   </div>
 </body>
-
 </html>

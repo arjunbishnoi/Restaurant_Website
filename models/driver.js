@@ -1,53 +1,49 @@
-// -------------------------------
-// DRIVER MODEL (MongoDB Schema)
-// Handles delivery driver accounts
-// Includes secure password hashing and validation
-// -------------------------------
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-// Schema Definition
+// Define the schema for the Driver model
 const driverSchema = new mongoose.Schema({
-  // Unique username for driver login
+  // Username for driver login (unique and required)
   username: { 
     type: String, 
     required: [true, "Username is required"], 
     unique: true,
     trim: true, // Removes whitespace
-    index: true // Add index for faster lookups
+    index: true // Improves query performance
   },
   
-  // Securely hashed password
+  // Password (securely hashed before saving)
   password: { 
     type: String, 
     required: [true, "Password is required"],
     minlength: [6, "Password must be at least 6 characters"]
   },
   
-  // Driver's full name
+  // Full name of the driver
   driverName: {
     type: String,
     required: [true, "Driver name is required"],
     trim: true
   },
   
-  // Vehicle information
+  // Vehicle model (e.g., Toyota Corolla)
   vehicleModel: {
     type: String,
     required: [true, "Vehicle model is required"]
   },
   
+  // License plate (uppercase alphanumeric, 6-8 characters)
   licensePlate: {
     type: String,
     required: [true, "License plate is required"],
-    uppercase: true, // Store as uppercase
+    uppercase: true, // Ensures the value is stored in uppercase
     match: [/^[A-Z0-9]{6,8}$/, "License plate must be 6-8 alphanumeric characters (uppercase only)"]
   }
 }, { 
-  timestamps: true // Auto-add createdAt/updatedAt fields
+  timestamps: true // Automatically adds createdAt and updatedAt fields
 });
 
-// Password Hashing Middleware
+// Middleware to hash the password before saving
 driverSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   
@@ -60,7 +56,7 @@ driverSchema.pre('save', async function (next) {
   }
 });
 
-// Password Comparison Method
+// Method to compare entered password with the hashed password
 driverSchema.methods.comparePassword = async function (enteredPassword) {
   try {
     const isMatch = await bcrypt.compare(enteredPassword, this.password);
@@ -73,6 +69,6 @@ driverSchema.methods.comparePassword = async function (enteredPassword) {
   }
 };
 
-// Export the Driver Model
+// Export the Driver model
 const Driver = mongoose.model('Driver', driverSchema);
 module.exports = Driver;

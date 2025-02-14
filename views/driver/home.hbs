@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Login</title>
     <style>
-        /* Reset default browser styles */
+        /* Reset default browser styles for consistency */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body styling */
+        /* Body styling with a dark theme */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000; /* Black background for a sleek look */
+            color: #fff; /* White text for contrast */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -30,19 +30,20 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #121212; /* Slightly lighter black for contrast */
+            background-color: #121212; /* Slightly lighter black for visibility */
             padding: 15px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        /* Navbar title styling */
         .navbar h1 {
             font-size: 1.5rem;
             margin: 0;
         }
 
-        /* Login container */
+        /* Login container styling */
         .login-container {
             background-color: #121212; /* Slightly lighter black for contrast */
             border-radius: 15px;
@@ -54,7 +55,7 @@
             margin-top: 80px; /* Space for the navbar */
         }
 
-        /* Heading */
+        /* Main heading styling */
         h1 {
             font-size: 2rem;
             margin-bottom: 20px;
@@ -69,7 +70,7 @@
             gap: 15px;
         }
 
-        /* Input fields */
+        /* Input fields styling */
         input[type="text"],
         input[type="password"] {
             width: 100%;
@@ -83,21 +84,22 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Focus effect for input fields */
         input[type="text"]:focus,
         input[type="password"]:focus {
             background-color: #333; /* Slightly lighter gray on focus */
         }
 
-        /* Placeholder styling */
+        /* Placeholder text styling */
         input::placeholder {
             color: #aaa; /* Light gray placeholder text */
             font-size: 1rem;
         }
 
-        /* Submit button (Login) */
+        /* Submit button (Login) styling */
         button[type="submit"] {
             color: white;
-            background-color: #6a0fd3; 
+            background-color: #6a0fd3; /* Purple accent for login button */
             font-size: 1rem;
             font-weight: bolder;
             padding: 12px;
@@ -107,16 +109,16 @@
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
+        /* Hover effect for submit button */
         button[type="submit"]:hover {
             transform: scale(1.05);
-            color: white;
             background-color: #812be4; /* Darker purple on hover */
         }
 
-        /* Sign-up button */
+        /* Sign-up button styling */
         .signup-btn {
-            background-color: #ffffff; /* Dark neon green for sign-up button */
-            color: rgb(0, 0, 0);
+            background-color: #ffffff; /* White background for sign-up button */
+            color: rgb(0, 0, 0); /* Black text for contrast */
             font-size: 1rem;
             padding: 12px;
             width: 100%;
@@ -126,28 +128,29 @@
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
+        /* Hover effect for sign-up button */
         .signup-btn:hover {
             transform: scale(1.05);
-            background-color: #2ce600; /* Slightly darker neon green on hover */
+            background-color: #2ce600; /* Neon green on hover */
         }
 
-        /* Error message */
+        /* Error message styling */
         .error-message {
-            color: #ff4d4d;
+            color: #ff4d4d; /* Red text for error messages */
             margin-top: 10px;
             font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- Navbar with the title -->
     <div class="navbar">
         <h1>Driver Login</h1>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main content area -->
     <div class="container">
-        <!-- Login Form -->
+        <!-- Login form container -->
         <div class="login-container">
             <h1>Driver Login</h1>
             <form action="/driver/login" method="POST">
