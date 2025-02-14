@@ -1,100 +1,64 @@
 // ------------------------- REQUIREMENTS --------------------------
-
 // Dependencies
 const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const port = process.env.PORT || 8080
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
 require('dotenv').config();
 
-// 'App' Defined
-const app = express()
+// App Defined
+const app = express();
+const port = process.env.PORT || 8080;
 
-// Handlebar 
-app.engine('hbs', exphbs.engine({
-    extname: 'hbs',
-    defaultLayout: false
-}));
+// Handlebars Setup
+app.engine('hbs', exphbs.engine({ extname: 'hbs', defaultLayout: false }));
 app.set('view engine', 'hbs');
 
-// URL Encoding
-app.use(express.urlencoded({ extended: true }))
-
-// Global Constants and Variables 
-const Driver = require("./models/driver.js");
-const Order = require("./models/order.js"); // arjun made this change
-
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+app.use(fileUpload());
+app.use(morgan('dev'));
 
 
 // ------------------------- HOME PAGE ----------------------------
-
-app.get("/", (req, res) => {
-    return res.render("home.hbs")
-})
+app.get("/", (req, res) => res.render("home.hbs"));
 
 
-
-// ----------------------- MENU SECTION ---------------------------
-
-app.get("/menu", (req, res) => {
-    return res.render("./menu/menu.hbs")
-})
-
-
-
-// ----------------------- ADMIN SECTION --------------------------
-app.get("/admin", (req, res) => {
-    return res.render("./admin/admin.hbs")
-})
-
-
-
-// ---------------------- DRIVER SECTION --------------------------
-
-// Driver Homepage
-app.get("/driver", (req, res) => {
-    res.render("./driver/home.hbs");
-});
-
-// Driver Dashboard Page
-app.get("/driver/dashboard", (req, res) => {
-    res.render("./driver/dashboard.hbs");
-});
-
-// Driver Delivery Page
-app.get("/driver/deliver", (req, res) => {
-    res.render("./driver/deliver.hbs");
-});
-
-// Driver Login Page
-app.get("/driver/login", (req, res) => {
-    res.render("./driver/login.hbs");
-});
-
-// Driver Orders Page
-app.get("/driver/orders", (req, res) => {
-    res.render("./driver/orders.hbs");
-});
-
-// Driver Registration Page
-app.get("/driver/register", (req, res) => {
-    res.render("./driver/register.hbs");
-});
-
+// ----------------------- ROUTES SECTION ---------------------------
+// Routes
+const menuRoutes = require('./routes/menuRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const driverRoutes = require('./routes/driverRoutes');
+app.use('/menu', menuRoutes);
+app.use('/admin', adminRoutes);
+app.use('/driver', driverRoutes);
 
 
 // --------------------- SERVER AND MONGODB ------------------------
-const startServer = async () => {
-    console.log(`The server is running on http://localhost:${port}`)
-    console.log(`Press CTRL + C to exit`)
+// Error Handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).render('error.hbs', { message: 'Something went wrong!' });
+});
 
-    // MongoDB Connection
+// MongoDB Connection and Server Start
+const startServer = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI)
-        console.log("Success! Connected to MongoDB")
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("Success! Connected to MongoDB");
     } catch (err) {
         console.error("Error connecting to MongoDB:", err);
     }
-}
-app.listen(port, startServer)
+};
+app.listen(port, () => {
+    console.log(`The server is running on http://localhost:${port}`);
+    console.log(`Press CTRL + C to exit`);
+});
