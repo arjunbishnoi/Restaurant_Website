@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Dashboard</title>
-     <!-- Global CSS -->
-    <link rel="stylesheet" href="/css/global.css">
-    <!-- Driver-specific CSS -->
-    <link rel="stylesheet" href="/css/driver.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Dashboard</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/driver.css">
 </head>
 <body>
-    <h1>Welcome, {{driver}}!</h1>
-    <h2>Your Active Orders</h2>
+  <h1>Welcome, {{driver}}!</h1>
+  <p>This is your dashboard. Here, you can view your active orders and manage deliveries.</p>
+
+  <h2>Your Active Orders</h2>
+  {{#if orders.length}}
     <ul>
-        {{#each orders}}
-            <li>
-                <strong>Order ID:</strong> {{this._id}}<br>
-                <strong>Customer:</strong> {{this.customerName}}<br>
-                <strong>Address:</strong> {{this.deliveryAddress}}<br>
-                <strong>Status:</strong> {{this.status}}
-            </li>
-        {{else}}
-            <p>No active orders.</p>
-        {{/each}}
+      {{#each orders}}
+        <li>
+          <strong>Order ID:</strong> {{this._id}}<br>
+          <strong>Status:</strong> {{this.status}}<br>
+          <strong>Customer:</strong> {{this.customerName}}<br>
+          <strong>Address:</strong> {{this.deliveryAddress}}
+        </li>
+      {{/each}}
     </ul>
-    <a href="/driver/orders">View Available Orders</a><br>
-    <form action="/driver/logout" method="POST">
-        <button type="submit">Logout</button>
-    </form>
+  {{else}}
+    <p>You currently have no active orders.</p>
+  {{/if}}
+
+  <form action="/driver/logout" method="POST">
+    <button type="submit">Logout</button>
+  </form>
 </body>
 </html>
