@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Login</title>
-     <!-- Global CSS -->
     <link rel="stylesheet" href="/css/global.css">
-    <!-- Driver-specific CSS -->
     <link rel="stylesheet" href="/css/driver.css">
 </head>
 <body>
-    <h1>Driver Login</h1>
-    {{#if error}}
-        <p style="color: red;">{{error}}</p>
-    {{/if}}
+    <h1>Login as a Driver</h1>
     <form action="/driver/login" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br>
@@ -21,6 +16,6 @@
         <input type="password" id="password" name="password" required><br>
         <button type="submit">Login</button>
     </form>
-    <a href="/driver/register">Don't have an account? Register here</a>
+    {{#if error}}<p style="color: red;">{{error}}</p>{{/if}}
 </body>
 </html>

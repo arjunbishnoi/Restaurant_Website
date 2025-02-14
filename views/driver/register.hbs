@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Registration</title>
-     <!-- Global CSS -->
     <link rel="stylesheet" href="/css/global.css">
-    <!-- Driver-specific CSS -->
     <link rel="stylesheet" href="/css/driver.css">
 </head>
 <body>
     <h1>Register as a Driver</h1>
-    {{#if error}}
-        <p style="color: red;">{{error}}</p>
-    {{/if}}
     <form action="/driver/register" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br>
@@ -27,6 +22,6 @@
         <input type="text" id="licensePlate" name="licensePlate" required><br>
         <button type="submit">Register</button>
     </form>
-    <a href="/driver/login">Already have an account? Login here</a>
+    {{#if error}}<p style="color: red;">{{error}}</p>{{/if}}
 </body>
 </html>

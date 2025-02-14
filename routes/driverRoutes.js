@@ -11,12 +11,69 @@ const requireDriverAuth = (req, res, next) => {
     next();
 };
 
-
 // Driver Homepage
 router.get('/', (req, res) => {
-    res.render('./driver/home.hbs');
+    res.render('./driver/home.hbs', { session: req.session });
 });
-// Driver dashboard
+
+// Driver Registration Page
+router.get('/register', (req, res) => {
+    res.render('./driver/register.hbs', { error: null });
+});
+
+// Driver Registration Logic
+router.post('/register', async (req, res) => {
+    try {
+        const { username, password, driverName, vehicleModel, licensePlate } = req.body;
+
+        // Check if the username already exists
+        const existingDriver = await Driver.findOne({ username });
+        if (existingDriver) {
+            return res.render('./driver/register.hbs', { error: 'Username already exists' });
+        }
+
+        // Create a new driver
+        const newDriver = new Driver({
+            username,
+            password,
+            driverName,
+            vehicleModel,
+            licensePlate,
+        });
+        await newDriver.save();
+
+        res.redirect('/driver/login');
+    } catch (err) {
+        console.error(err);
+        res.status(400).render('./driver/register.hbs', { error: 'Registration failed' });
+    }
+});
+
+// Driver Login Page
+router.get('/login', (req, res) => {
+    res.render('./driver/login.hbs', { error: null });
+});
+
+// Driver Login Logic
+router.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const driver = await Driver.findOne({ username });
+
+        if (!driver || !(await driver.comparePassword(password))) {
+            return res.render('./driver/login.hbs', { error: 'Invalid credentials' });
+        }
+
+        req.session.driverId = driver._id;
+        req.session.driverName = driver.driverName;
+        res.redirect('/driver/dashboard');
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('error.hbs', { message: 'Login failed' });
+    }
+});
+
+// Driver Dashboard
 router.get('/dashboard', requireDriverAuth, async (req, res) => {
     try {
         const orders = await Order.find({
@@ -29,11 +86,11 @@ router.get('/dashboard', requireDriverAuth, async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).render('error.hbs', { message: 'Server error' });
+        res.status(500).render('error.hbs', { message: 'Failed to load dashboard' });
     }
 });
 
-// Available orders
+// Available Orders
 router.get('/orders', requireDriverAuth, async (req, res) => {
     try {
         const availableOrders = await Order.find({ status: 'READY' });
@@ -44,7 +101,7 @@ router.get('/orders', requireDriverAuth, async (req, res) => {
     }
 });
 
-// Claim an order
+// Claim an Order
 router.post('/orders/claim/:orderId', requireDriverAuth, async (req, res) => {
     try {
         const order = await Order.findOneAndUpdate(
@@ -64,7 +121,7 @@ router.post('/orders/claim/:orderId', requireDriverAuth, async (req, res) => {
     }
 });
 
-// Deliver an order
+// Deliver an Order
 router.post('/deliver/:orderId', requireDriverAuth, async (req, res) => {
     try {
         if (!req.files || !req.files.deliveryProof) {
@@ -88,41 +145,7 @@ router.post('/deliver/:orderId', requireDriverAuth, async (req, res) => {
     }
 });
 
-// Driver registration
-router.post('/register', async (req, res) => {
-    try {
-        const newDriver = new Driver({
-            username: req.body.username,
-            password: req.body.password,
-            driverName: req.body.driverName,
-            vehicleModel: req.body.vehicleModel,
-            licensePlate: req.body.licensePlate,
-        });
-        await newDriver.save();
-        res.redirect('/driver/login');
-    } catch (err) {
-        console.error(err);
-        res.status(400).render('./driver/register.hbs', { error: 'Registration failed' });
-    }
-});
-
-// Driver login
-router.post('/login', async (req, res) => {
-    try {
-        const driver = await Driver.findOne({ username: req.body.username });
-        if (!driver || !(await driver.comparePassword(req.body.password))) {
-            return res.status(401).render('./driver/login.hbs', { error: 'Invalid credentials' });
-        }
-        req.session.driverId = driver._id;
-        req.session.driverName = driver.driverName;
-        res.redirect('/driver/dashboard');
-    } catch (err) {
-        console.error(err);
-        res.status(500).render('error.hbs', { message: 'Login failed' });
-    }
-});
-
-// Driver logout
+// Driver Logout
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.error(err);

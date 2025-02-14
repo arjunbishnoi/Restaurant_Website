@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Homepage</title>
-     <!-- Global CSS -->
     <link rel="stylesheet" href="/css/global.css">
-    <!-- Driver-specific CSS -->
     <link rel="stylesheet" href="/css/driver.css">
 </head>
 <body>
@@ -20,8 +18,10 @@
         <li><a href="/driver/dashboard">Go to Your Dashboard</a></li>
     </ul>
 
-    <form action="/driver/logout" method="POST">
-        <button type="submit">Logout</button>
-    </form>
+    {{#if session.driverId}}
+        <form action="/driver/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    {{/if}}
 </body>
 </html>
