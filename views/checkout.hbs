@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Tasty Bites Restaurant</title>
+    <link rel="stylesheet" href="/css/menu.css">
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Tasty Bites Restaurant</h1>
+    <div class="restaurant-info">
+        <p>CN Tower<br>290 Bremner Blvd, Toronto, ON M5V 3L9</p>
+        <p>Weekdays: 8:00 AM – 6:00 PM<br>Weekends: 8:00 AM – 12:00 PM</p>
+    </div>
+</header>
+
+<div class="checkout-container">
+    <h2>Checkout</h2>
+    <form id="orderForm">
+        <label for="customerName">NAME:</label>
+        <input type="text" id="customerName" name="customerName" required>
+
+        <label for="customerAddress">ADDRESS:</label>
+        <input type="text" id="customerAddress" name="customerAddress" required>
+
+        <p>Time: <span id="currentTime"></span></p>
+        <p>Total Price: <span id="finalTotal"></span></p>
+
+        <button type="submit">ORDER</button>
+    </form>
+
+    <div id="receipt" class="hidden">
+        <h3>Receipt</h3>
+        <p><strong>Name:</strong> <span id="receiptName"></span></p>
+        <p><strong>Address:</strong> <span id="receiptAddress"></span></p>
+        <p><strong>Time:</strong> <span id="receiptTime"></span></p>
+        <p><strong>Total Price:</strong> <span id="receiptTotal"></span></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById("finalTotal").innerText = localStorage.getItem("totalPrice");
+    document.getElementById("currentTime").innerText = new Date().toLocaleString();
+
+    document.getElementById("orderForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+        const name = document.getElementById("customerName").value;
+        const address = document.getElementById("customerAddress").value;
+        const total = parseFloat(localStorage.getItem("totalPrice").replace("$", ""));
+        const time = new Date().toLocaleString();
+
+        const response = await fetch("/order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ customerName: name, customerAddress: address, totalPrice: total, time })
+        });
+
+        if (response.ok) {
+            document.getElementById("receipt").classList.remove("hidden");
+            document.getElementById("receiptName").innerText = name;
+            document.getElementById("receiptAddress").innerText = address;
+            document.getElementById("receiptTime").innerText = time;
+            document.getElementById("receiptTotal").innerText = `$${total.toFixed(2)}`;
+
+            localStorage.removeItem("totalPrice");
+        }
+    });
+</script>
+</body>
+</html>

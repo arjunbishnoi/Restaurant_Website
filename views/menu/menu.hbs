@@ -3,41 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
+    <title>Tasty Bites Restaurant</title>
     <link rel="stylesheet" href="/css/menu.css">
 </head>
 <body>
+<header>
+    <h1>Tasty Bites Restaurant</h1>
+    <div class="restaurant-info">
+        <p>CN Tower<br>290 Bremner Blvd, Toronto, ON M5V 3L9</p>
+        <p>Weekdays: 8:00 AM – 6:00 PM<br>Weekends: 8:00 AM – 12:00 PM</p>
+    </div>
+</header>
 
-<h1>Welcome to Our Restaurant</h1>
-<h2>Menu</h2>
+<div class="container">
+    <section class="menu-section">
+        <h2>MENU</h2>
+        <div id="menuList" class="menu-items"></div>
+    </section>
 
-<ul id="menuList">Loading menu...</ul>
-
-<button onclick="fetchMenu()">Refresh Menu</button>
+    <section class="cart-section">
+        <h2>CART</h2>
+        <div id="cartList" class="cart-items"></div>
+        <p>GST HST (13%): <span id="taxAmount">$0.00</span></p>
+        <p>Total Price: <span id="totalPrice">$0.00</span></p>
+        <button class="checkout-btn" onclick="goToCheckout()">CHECKOUT</button>
+    </section>
+</div>
 
 <script>
+    let cart = [];
+
     async function fetchMenu() {
         try {
             const response = await fetch('/menu/api');
             const menuItems = await response.json();
             const menuList = document.getElementById("menuList");
 
-            menuList.innerHTML = menuItems.length
-                    ? menuItems.map(item => `
-                    <li>
-                        <img src="${item.image}" alt="${item.name}">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                        <p>Price: $${item.price}</p>
-                    </li>`).join('')
-                    : "<p>No menu items available.</p>";
-        } catch {
-            document.getElementById("menuList").innerHTML = "<p>Failed to load menu.</p>";
+            menuList.innerHTML = menuItems.map(item => `
+                    <div class="menu-item">
+                        <img src="/images/${item.image}" alt="${item.name}">
+                        <div class="menu-info">
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            <p>Price: $${item.price.toFixed(2)}</p>
+                            <button onclick="addToCart('${item._id}', '${item.name}', ${item.price}, '${item.image}')">Add To Cart</button>
+                        </div>
+                    </div>`).join('');
+        } catch (error) {
+            console.error("Error fetching menu:", error);
         }
+    }
+
+    function addToCart(id, name, price, image) {
+        const existingItem = cart.find(item => item.id === id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id, name, price, image, quantity: 1 });
+        }
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartList = document.getElementById("cartList");
+        let total = 0;
+        cartList.innerHTML = cart.map(item => {
+            total += item.price * item.quantity;
+            return `
+                    <div class="cart-item">
+                        <img src="/images/${item.image}" alt="${item.name}">
+                        <p>${item.name} x${item.quantity}</p>
+                        <p>$${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>`;
+        }).join('');
+
+        const tax = total * 0.13;
+        document.getElementById("taxAmount").innerText = `$${tax.toFixed(2)}`;
+        document.getElementById("totalPrice").innerText = `$${(total + tax).toFixed(2)}`;
+    }
+
+    function goToCheckout() {
+        const totalPrice = document.getElementById("totalPrice").innerText;
+        localStorage.setItem("totalPrice", totalPrice); // Store total price in localStorage
+        window.location.href = "/checkout";
     }
 
     fetchMenu();
 </script>
-
 </body>
 </html>
