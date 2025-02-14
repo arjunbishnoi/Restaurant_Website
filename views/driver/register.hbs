@@ -1,34 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Driver Registration</title>
-  <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/driver.css">
+  <style>
+    /* Reset default browser styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      /* Black background */
+      color: #fff;
+      /* White text */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #121212;
+      /* Slightly lighter black for contrast */
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    /* Registration container */
+    .register-container {
+      background-color: #121212;
+      /* Slightly lighter black for contrast */
+      border-radius: 15px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+      /* Subtle white glow */
+      margin-top: 80px;
+      /* Space for the navbar */
+    }
+
+    /* Heading */
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Form styling */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    /* Input fields */
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #222;
+      /* Dark gray background */
+      color: white;
+      outline: none;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      background-color: #333;
+      /* Slightly lighter gray on focus */
+    }
+
+    /* Placeholder styling */
+    input::placeholder {
+      color: #aaa;
+      /* Light gray placeholder text */
+      font-size: 1rem;
+    }
+
+    /* Submit button (Register) */
+    button[type="submit"] {
+      background-color: #2ce600;
+      /* Dark purple for register button */
+      color: BLACK;
+      font-size: 1rem;
+      font-weight: bolder;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      transform: scale(1.05);
+      background-color: white;
+    }
+
+    /* Login instead link */
+    .login-link {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: rgb(237, 237, 237);
+      /* Soft blue accent for links */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .login-link:hover {
+      color: #64b5f6;
+      /* Accent color on hover */
+    }
+
+    /* Error message */
+    .error-message {
+      color: #ff4d4d;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Register as a Driver</h1>
-  <form action="/driver/register" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Driver Section</h1>
+  </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br>
-
-    <label for="driverName">Driver Name:</label>
-    <input type="text" id="driverName" name="driverName" required><br>
-
-    <label for="vehicleModel">Vehicle Model:</label>
-    <input type="text" id="vehicleModel" name="vehicleModel" required><br>
-
-    <label for="licensePlate">License Plate:</label>
-    <input type="text" id="licensePlate" name="licensePlate" required><br>
-
-    <button type="submit">Register</button>
-  </form>
-  {{#if error}}
-    <p style="color: red;">{{error}}</p>
-  {{/if}}
+  <!-- Main Content -->
+  <div class="register-container">
+    <h1>Register as a Driver</h1>
+    <form action="/driver/register" method="POST">
+      <input type="text" id="username" name="username" placeholder="Username" required>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <input type="text" id="driverName" name="driverName" placeholder="Driver Name" required>
+      <input type="text" id="vehicleModel" name="vehicleModel" placeholder="Vehicle Model" required>
+      <input type="text" id="licensePlate" name="licensePlate" placeholder="License Plate" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    {{#if error}}
+    <p class="error-message">{{error}}</p>
+    {{/if}}
+    <br>
+    <a href="/driver/" class="login-link">Login instead?</a>
+  </div>
 </body>
+
 </html>

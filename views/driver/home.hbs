@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Homepage</title>
+    <title>Driver Login</title>
     <style>
         /* Reset default browser styles */
         * {
@@ -15,8 +16,10 @@
         /* Body styling */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: white;
+            background-color: #000;
+            /* Black background */
+            color: #fff;
+            /* White text */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,16 +27,38 @@
             margin: 0;
         }
 
-        /* Container styling */
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 40px;
+        /* Navbar styling */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 500px;
+            background-color: #121212;
+            /* Slightly lighter black for contrast */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* Login container */
+        .login-container {
+            background-color: #121212;
+            /* Slightly lighter black for contrast */
+            border-radius: 15px;
+            padding: 60px;
+            width: 100%;
+            max-width: 400px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            /* Subtle white glow */
+            margin-top: 80px;
+            /* Space for the navbar */
         }
 
         /* Heading */
@@ -43,67 +68,116 @@
             letter-spacing: 1px;
         }
 
-        /* Paragraph */
-        p {
+        /* Form styling */
+        form {
+            margin-top: 45px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Input fields */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
             font-size: 1rem;
-            margin-bottom: 20px;
-        }
-
-        /* Navigation links */
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        ul li {
-            margin-bottom: 10px;
-        }
-
-        ul li a {
-            color: #ffeb3b;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        ul li a:hover {
-            transform: scale(1.05);
-            color: #fff;
-        }
-
-        /* Logout button */
-        button[type="submit"] {
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            background-color: #222;
+            /* Dark gray background */
             color: white;
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            background-color: #333;
+            /* Slightly lighter gray on focus */
+        }
+
+        /* Placeholder styling */
+        input::placeholder {
+            color: #aaa;
+            /* Light gray placeholder text */
             font-size: 1rem;
+        }
+
+        /* Submit button (Login) */
+        button[type="submit"] {
+            color: white;
+            background-color: #6a0fd3;
+            font-size: 1rem;
+            font-weight: bolder;
             padding: 12px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.3s ease, background 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
 
         button[type="submit"]:hover {
             transform: scale(1.05);
-            background: linear-gradient(135deg, #feb47b, #ff7e5f);
+            color: white;
+            background-color: #812be4;
+            /* Darker purple on hover */
+        }
+
+        /* Sign-up button */
+        .signup-btn {
+            background-color: #ffffff;
+            /* Dark neon green for sign-up button */
+            color: rgb(0, 0, 0);
+            font-size: 1rem;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            transform: scale(1.05);
+            background-color: #2ce600;
+            /* Slightly darker neon green on hover */
+        }
+
+        /* Error message */
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
+
 <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Driver Login</h1>
+    </div>
+
+    <!-- Main Content -->
     <div class="container">
-        <h1>Welcome to the Driver Section</h1>
-        <p>This is the homepage for delivery drivers. Please use the links below to navigate:</p>
-        <ul>
-            <li><a href="/driver/register">Register as a Driver</a></li>
-            <li><a href="/driver/login">Login to Your Account</a></li>
-            <li><a href="/driver/orders">View Available Orders</a></li>
-            <li><a href="/driver/dashboard">Go to Your Dashboard</a></li>
-        </ul>
-        {{#if session.driverId}}
-            <form action="/driver/logout" method="POST">
-                <button type="submit">Logout</button>
+        <!-- Login Form -->
+        <div class="login-container">
+            <h1>Driver Login</h1>
+            <form action="/driver/login" method="POST">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button type="submit">Login</button>
             </form>
-        {{/if}}
+            {{#if error}}
+            <p class="error-message">{{error}}</p>
+            {{/if}}
+            <br>
+            <a href="/driver/register">
+                <button type="button" class="signup-btn">Sign Up</button>
+            </a>
+        </div>
     </div>
 </body>
+
 </html>

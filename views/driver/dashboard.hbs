@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,8 +16,10 @@
     /* Body styling */
     body {
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: white;
+      background-color: #000;
+      /* Black background */
+      color: #fff;
+      /* White text */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,16 +27,55 @@
       margin: 0;
     }
 
+    /* Navbar styling */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #121212;
+      /* Slightly lighter black for contrast */
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .navbar .logout-btn {
+      background-color: #ff4d4d;
+      /* Pale red for logout button */
+      color: white;
+      font-size: 1rem;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar .logout-btn:hover {
+      background-color: #e53935;
+      /* Darker red on hover */
+    }
+
     /* Dashboard container */
     .dashboard-container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      background-color: #121212;
+      /* Slightly lighter black for contrast */
       border-radius: 15px;
       padding: 40px;
       width: 100%;
       max-width: 500px;
       text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+      /* Subtle white glow */
+      margin-top: 80px;
+      /* Space for the navbar */
     }
 
     /* Heading */
@@ -43,76 +85,48 @@
       letter-spacing: 1px;
     }
 
-    /* Subheading */
-    p {
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
-
-    /* Active orders section */
-    .orders-list {
+    /* Dashboard Links */
+    ul {
       list-style: none;
       padding: 0;
     }
 
-    .orders-list li {
-      background: rgba(255, 255, 255, 0.2);
-      margin-bottom: 10px;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: left;
+    ul li {
+      margin-bottom: 15px;
     }
 
-    .orders-list strong {
-      color: #ffeb3b;
-    }
-
-    /* No orders message */
-    .no-orders {
+    ul li a {
+      color: #64b5f6;
+      /* Soft blue accent for links */
+      text-decoration: none;
       font-size: 1rem;
-      color: #f0f0f0;
+      transition: color 0.3s ease;
     }
 
-    /* Logout button */
-    button[type="submit"] {
-      background: linear-gradient(135deg, #ff7e5f, #feb47b);
-      color: white;
-      font-size: 1rem;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    ul li a:hover {
+      color: #ff6f61;
+      /* Accent color on hover */
     }
   </style>
 </head>
+
 <body>
-  <div class="dashboard-container">
+  <!-- Navbar -->
+  <div class="navbar">
     <h1>Welcome, {{driver}}!</h1>
-    <p>This is your dashboard. Here, you can view your active orders and manage deliveries.</p>
-    <h2>Your Active Orders</h2>
-    {{#if orders.length}}
-      <ul class="orders-list">
-        {{#each orders}}
-          <li>
-            <strong>Order ID:</strong> {{this._id}}<br>
-            <strong>Status:</strong> {{this.status}}<br>
-            <strong>Customer:</strong> {{this.customerName}}<br>
-            <strong>Address:</strong> {{this.deliveryAddress}}
-          </li>
-        {{/each}}
-      </ul>
-    {{else}}
-      <p class="no-orders">You currently have no active orders.</p>
-    {{/if}}
-    <form action="/driver/logout" method="POST">
-      <button type="submit">Logout</button>
+    <form action="/driver/logout" method="POST" style="display: inline;">
+      <button type="submit" class="logout-btn">Logout</button>
     </form>
   </div>
+
+  <!-- Main Content -->
+  <div class="dashboard-container">
+    <h1>Driver Dashboard</h1>
+    <p>This is your dashboard. Please use the links below to navigate:</p>
+    <ul>
+      <li><a href="/driver/orders">View Available Orders</a></li>
+    </ul>
+  </div>
 </body>
+
 </html>
