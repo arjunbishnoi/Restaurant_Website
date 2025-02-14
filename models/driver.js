@@ -3,16 +3,15 @@
 // Handles delivery driver accounts
 // Includes secure password hashing and validation
 // -------------------------------
-// 1. LIBRARY IMPORTS
-const mongoose = require("mongoose"); // MongoDB ORM
-const bcrypt = require("bcrypt");     // Password hashing
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-// 2. SCHEMA DEFINITION
+// Schema Definition
 const driverSchema = new mongoose.Schema({
   // Unique username for driver login
   username: { 
     type: String, 
-    required: [true, "Username is required"], // Custom error message
+    required: [true, "Username is required"], 
     unique: true,
     trim: true, // Removes whitespace
     index: true // Add index for faster lookups
@@ -42,22 +41,18 @@ const driverSchema = new mongoose.Schema({
     type: String,
     required: [true, "License plate is required"],
     uppercase: true, // Store as uppercase
-    match: [/^[A-Z0-9]{6,8}$/, "License plate must be 6-8 alphanumeric characters"]
+    match: [/^[A-Z0-9]{6,8}$/, "License plate must be 6-8 alphanumeric characters (uppercase only)"]
   }
 }, { 
   timestamps: true // Auto-add createdAt/updatedAt fields
 });
 
-// 3. PASSWORD HASHING MIDDLEWARE
-// Hashes password before saving to DB
+// Password Hashing Middleware
 driverSchema.pre('save', async function (next) {
-  // Only hash if password is modified
   if (!this.isModified('password')) return next();
   
   try {
-    // Generate salt (10 rounds)
     const salt = await bcrypt.genSalt(10);
-    // Hash password with salt
     this.password = await bcrypt.hash(this.password, salt);
     next();
   } catch (err) {
@@ -65,8 +60,7 @@ driverSchema.pre('save', async function (next) {
   }
 });
 
-// 4. PASSWORD COMPARISON METHOD
-// Used during login to validate credentials
+// Password Comparison Method
 driverSchema.methods.comparePassword = async function (enteredPassword) {
   try {
     const isMatch = await bcrypt.compare(enteredPassword, this.password);
@@ -79,6 +73,6 @@ driverSchema.methods.comparePassword = async function (enteredPassword) {
   }
 };
 
-// 5. MODEL EXPORT
+// Export the Driver Model
 const Driver = mongoose.model('Driver', driverSchema);
 module.exports = Driver;

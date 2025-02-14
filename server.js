@@ -50,13 +50,20 @@ app.use((err, req, res, next) => {
 // MongoDB Connection and Server Start
 const startServer = async () => {
     try {
+        // Connect to MongoDB using the URI from environment variables
         await mongoose.connect(process.env.MONGODB_URI);
-        console.log("Success! Connected to MongoDB");
+        console.log("Connected to MongoDB successfully.");
+
+        // Start the server after successfully connecting to MongoDB
+        app.listen(port, () => {
+            console.log(`The server is running on http://localhost:${port}`);
+            console.log(`Press CTRL + C to exit`);
+        });
     } catch (err) {
         console.error("Error connecting to MongoDB:", err);
+        process.exit(1); // Exit if connection fails
     }
 };
-app.listen(port, () => {
-    console.log(`The server is running on http://localhost:${port}`);
-    console.log(`Press CTRL + C to exit`);
-});
+
+// Call the startServer function to initialize the application
+startServer();
