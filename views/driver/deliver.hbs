@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery</title>
+    <title>Deliver Order</title>
 </head>
-
 <body>
-    <h1>Delivery Driver Page</h1>
+    <h1>Mark Order as Delivered</h1>
+    <form action="/driver/deliver/{{orderId}}" method="POST" enctype="multipart/form-data">
+        <label for="deliveryProof">Upload Proof of Delivery:</label>
+        <input type="file" id="deliveryProof" name="deliveryProof" required><br>
+        <button type="submit">Confirm Delivery</button>
+    </form>
+    <a href="/driver/dashboard">Back to Dashboard</a>
 </body>
-
 </html>

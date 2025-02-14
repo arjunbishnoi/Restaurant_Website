@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Page</title>
+    <title>Driver Homepage</title>
 </head>
-
 <body>
-    <h1>Driver Home Page</h1>
-    <a href="/driver/dashboard">Dashboard</a>
-    <a href="/driver/login">Login</a>
-    <a href="/driver/register">Register</a>
-    <a href="/driver/deliver">Deliver</a>
-    <a href="/driver/orders">Orders</a>
+    <h1>Welcome to the Driver Section</h1>
+    <p>This is the homepage for delivery drivers. Please use the links below to navigate:</p>
 
+    <ul>
+        <li><a href="/driver/register">Register as a Driver</a></li>
+        <li><a href="/driver/login">Login to Your Account</a></li>
+        <li><a href="/driver/orders">View Available Orders</a></li>
+        <li><a href="/driver/dashboard">Go to Your Dashboard</a></li>
+    </ul>
+
+    <form action="/driver/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
 </body>
-
 </html>

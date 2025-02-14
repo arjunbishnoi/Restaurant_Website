@@ -1,37 +1,30 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Available Orders</title>
-  <style>
-    .order {
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin: 10px 0;
-    }
-
-    button {
-      background: #28a745;
-      color: white;
-      padding: 5px 10px;
-      border: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Orders</title>
 </head>
-
 <body>
-  <h1>Available Orders</h1>
-  {{#each orders}}
-  <div class="order">
-    <h3>{{this.customerName}}</h3>
-    <p>{{this.deliveryAddress}}</p>
-    <form method="POST" action="/driver/orders/claim/{{this._id}}">
-      <button type="submit">Claim Order</button>
+    <h1>Available Orders</h1>
+    <ul>
+        {{#each orders}}
+            <li>
+                <strong>Order ID:</strong> {{this._id}}<br>
+                <strong>Customer:</strong> {{this.customerName}}<br>
+                <strong>Address:</strong> {{this.deliveryAddress}}<br>
+                <strong>Status:</strong> {{this.status}}<br>
+                <form action="/driver/orders/claim/{{this._id}}" method="POST">
+                    <button type="submit">Claim Order</button>
+                </form>
+            </li>
+        {{else}}
+            <p>No available orders.</p>
+        {{/each}}
+    </ul>
+    <a href="/driver/dashboard">Back to Dashboard</a><br>
+    <form action="/driver/logout" method="POST">
+        <button type="submit">Logout</button>
     </form>
-  </div>
-  {{else}}
-  <p>No orders available</p>
-  {{/each}}
 </body>
-
 </html>

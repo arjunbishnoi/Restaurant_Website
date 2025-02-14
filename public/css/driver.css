@@ -1,0 +1,22 @@
+/* Driver-specific styles */
+.driver-dashboard {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.driver-dashboard h1 {
+    color: #007bff;
+}
+
+.driver-orders ul {
+    list-style: none;
+}
+
+.driver-orders li {
+    background-color: #f4f4f4;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}

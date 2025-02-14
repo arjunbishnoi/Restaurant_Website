@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Driver Dashboard</title>
-  <style>
-    .order {
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin: 10px 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Dashboard</title>
 </head>
-
 <body>
-  <h1>Your Orders</h1>
-  {{#each orders}}
-  <div class="order">
-    <h3>{{this.customerName}}</h3>
-    <p>Status: {{this.status}}</p>
-  </div>
-  {{else}}
-  <p>No active orders</p>
-  {{/each}}
+    <h1>Welcome, {{driver}}!</h1>
+    <h2>Your Active Orders</h2>
+    <ul>
+        {{#each orders}}
+            <li>
+                <strong>Order ID:</strong> {{this._id}}<br>
+                <strong>Customer:</strong> {{this.customerName}}<br>
+                <strong>Address:</strong> {{this.deliveryAddress}}<br>
+                <strong>Status:</strong> {{this.status}}
+            </li>
+        {{else}}
+            <p>No active orders.</p>
+        {{/each}}
+    </ul>
+    <a href="/driver/orders">View Available Orders</a><br>
+    <form action="/driver/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
 </body>
-
 </html>

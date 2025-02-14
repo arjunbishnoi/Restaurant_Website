@@ -37,6 +37,7 @@ app.get("/", (req, res) => res.render("home.hbs"));
 const menuRoutes = require('./routes/menuRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const driverRoutes = require('./routes/driverRoutes');
+
 app.use('/menu', menuRoutes);
 app.use('/admin', adminRoutes);
 app.use('/driver', driverRoutes);
