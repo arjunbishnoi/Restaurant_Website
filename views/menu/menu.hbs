@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="/public/images">
 </head>
-
 <body>
-    <h1>Menu Page</h1>
+<h1>Welcome to Our Restaurant</h1>
+<h2>Menu</h2>
+<ul>
+    {{#each menuItems}}
+        <li>
+            <img src="{{this.image}}" alt="{{this.name}}">
+            <h3>{{this.name}}</h3>
+            <p>{{this.description}}</p>
+            <p>Price: ${{this.price}}</p>
+        </li>
+    {{/each}}
+</ul>
 </body>
-
 </html>
+
+// public/css/menu.css
+body {
+font-family: Arial, sans-serif;
+text-align: center;
+}
+
+ul {
+list-style-type: none;
+}
+
+li {
+display: inline-block;
+margin: 20px;
+}
