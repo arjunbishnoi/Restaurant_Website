@@ -28,6 +28,7 @@
     "express-fileupload": "^1.5.1",
     "express-handlebars": "^8.0.1",
     "express-session": "^1.18.1",
+    "hbs": "^4.2.0",
     "mongoose": "^8.10.0",
     "morgan": "^1.10.0",
     "node": "^23.7.0",

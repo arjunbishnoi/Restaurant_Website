@@ -9,7 +9,6 @@ const morgan = require('morgan');
 require('dotenv').config();
 const path = require("path");
 
-
 // App Defined
 const app = express();
 const port = process.env.PORT || 8080;
@@ -20,13 +19,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware
-app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 app.use(fileUpload());
 app.use(morgan('dev'));
 
 // ------------------------- HOME PAGE ----------------------------
-app.get("/", (req, res) => res.render("homepage"));
+app.get("/", (req, res) => res.render("./homepage.hbs"));
 
 // ----------------------- ROUTES SECTION ---------------------------
 // Routes
@@ -37,20 +35,23 @@ app.use('/menu', menuRoutes);
 app.use('/admin', adminRoutes);
 app.use('/driver', driverRoutes);
 
-
 // --------------------- SERVER AND MONGODB ------------------------
-
 // MongoDB Connection and Server Start
 const startServer = async () => {
     console.log(`The server is running on http://localhost:${port}`);
     console.log("Press CTRL + C to exit");
 
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        const mongoURI = process.env.MONGO_URI;
+        if (!mongoURI) {
+            throw new Error('MONGO_URI is not defined in the environment variables.');
+        }
+
+        await mongoose.connect(mongoURI);
         console.log("Success! Connected to MongoDB");
     } catch (err) {
-        console.error("Error connecting to MongoDB:", err);
-        process.exit(1);
+        console.error("Error connecting to MongoDB:", err.message);
+        process.exit(1); // Exit if connection fails
     }
 };
 
