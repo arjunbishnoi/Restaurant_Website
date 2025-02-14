@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +15,8 @@
         /* Body styling */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #000;
-            /* Black background */
-            color: #fff;
-            /* White text */
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,8 +30,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: #121212;
-            /* Slightly lighter black for contrast */
+            background-color: #121212; /* Slightly lighter black for contrast */
             padding: 15px 20px;
             display: flex;
             justify-content: center;
@@ -48,17 +44,14 @@
 
         /* Login container */
         .login-container {
-            background-color: #121212;
-            /* Slightly lighter black for contrast */
+            background-color: #121212; /* Slightly lighter black for contrast */
             border-radius: 15px;
             padding: 60px;
             width: 100%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-            /* Subtle white glow */
-            margin-top: 80px;
-            /* Space for the navbar */
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* Subtle white glow */
+            margin-top: 80px; /* Space for the navbar */
         }
 
         /* Heading */
@@ -84,8 +77,7 @@
             border: none;
             border-radius: 8px;
             font-size: 1rem;
-            background-color: #222;
-            /* Dark gray background */
+            background-color: #222; /* Dark gray background */
             color: white;
             outline: none;
             transition: background-color 0.3s ease;
@@ -93,21 +85,19 @@
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            background-color: #333;
-            /* Slightly lighter gray on focus */
+            background-color: #333; /* Slightly lighter gray on focus */
         }
 
         /* Placeholder styling */
         input::placeholder {
-            color: #aaa;
-            /* Light gray placeholder text */
+            color: #aaa; /* Light gray placeholder text */
             font-size: 1rem;
         }
 
         /* Submit button (Login) */
         button[type="submit"] {
             color: white;
-            background-color: #6a0fd3;
+            background-color: #6a0fd3; 
             font-size: 1rem;
             font-weight: bolder;
             padding: 12px;
@@ -120,14 +110,12 @@
         button[type="submit"]:hover {
             transform: scale(1.05);
             color: white;
-            background-color: #812be4;
-            /* Darker purple on hover */
+            background-color: #812be4; /* Darker purple on hover */
         }
 
         /* Sign-up button */
         .signup-btn {
-            background-color: #ffffff;
-            /* Dark neon green for sign-up button */
+            background-color: #ffffff; /* Dark neon green for sign-up button */
             color: rgb(0, 0, 0);
             font-size: 1rem;
             padding: 12px;
@@ -140,8 +128,7 @@
 
         .signup-btn:hover {
             transform: scale(1.05);
-            background-color: #2ce600;
-            /* Slightly darker neon green on hover */
+            background-color: #2ce600; /* Slightly darker neon green on hover */
         }
 
         /* Error message */
@@ -152,7 +139,6 @@
         }
     </style>
 </head>
-
 <body>
     <!-- Navbar -->
     <div class="navbar">
@@ -170,7 +156,7 @@
                 <button type="submit">Login</button>
             </form>
             {{#if error}}
-            <p class="error-message">{{error}}</p>
+                <p class="error-message">{{error}}</p>
             {{/if}}
             <br>
             <a href="/driver/register">
@@ -179,5 +165,4 @@
         </div>
     </div>
 </body>
-
 </html>

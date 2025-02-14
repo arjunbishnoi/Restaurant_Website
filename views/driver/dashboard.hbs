@@ -39,11 +39,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid #333;
+      /* Subtle border for separation */
     }
 
     .navbar h1 {
       font-size: 1.5rem;
       margin: 0;
+      letter-spacing: 1px;
     }
 
     .navbar .logout-btn {
@@ -70,7 +73,7 @@
       border-radius: 15px;
       padding: 40px;
       width: 100%;
-      max-width: 500px;
+      max-width: 800px;
       text-align: center;
       box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
       /* Subtle white glow */
@@ -78,21 +81,34 @@
       /* Space for the navbar */
     }
 
-    /* Heading */
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
+    /* Sections */
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
       letter-spacing: 1px;
     }
 
-    /* Dashboard Links */
+    /* Order list */
     ul {
       list-style: none;
       padding: 0;
     }
 
     ul li {
-      margin-bottom: 15px;
+      background-color: #222;
+      margin-bottom: 10px;
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    ul li:hover {
+      background-color: #333;
     }
 
     ul li a {
@@ -106,6 +122,22 @@
     ul li a:hover {
       color: #ff6f61;
       /* Accent color on hover */
+    }
+
+    /* No orders message */
+    .no-orders {
+      font-size: 1.2rem;
+      color: #aaa;
+    }
+
+    /* Form styling */
+    form {
+      margin-top: 10px;
+      display: inline-block;
+    }
+
+    input[type="file"] {
+      margin-right: 10px;
     }
   </style>
 </head>
@@ -122,10 +154,50 @@
   <!-- Main Content -->
   <div class="dashboard-container">
     <h1>Driver Dashboard</h1>
-    <p>This is your dashboard. Please use the links below to navigate:</p>
-    <ul>
-      <li><a href="/driver/orders">View Available Orders</a></li>
-    </ul>
+
+    <!-- Available Orders Section -->
+    <div class="section">
+      <h2>Available Orders</h2>
+      <ul>
+        {{#if availableOrders.length}}
+        {{#each availableOrders}}
+        <li>
+          <strong>Order ID:</strong> {{this._id}}<br>
+          <strong>Customer:</strong> {{this.customerName}}<br>
+          <strong>Address:</strong> {{this.deliveryAddress}}<br>
+          <form action="/driver/orders/{{this._id}}/assign" method="POST" style="display: inline;">
+            <button type="submit">Pick This Order</button>
+          </form>
+        </li>
+        {{/each}}
+        {{else}}
+        <li class="no-orders">No available orders at this time.</li>
+        {{/if}}
+      </ul>
+    </div>
+
+    <!-- Picked-Up Orders Section -->
+    <div class="section">
+      <h2>Picked-Up Orders</h2>
+      <ul>
+        {{#if pickedUpOrders.length}}
+        {{#each pickedUpOrders}}
+        <li>
+          <strong>Order ID:</strong> {{this._id}}<br>
+          <strong>Customer:</strong> {{this.customerName}}<br>
+          <strong>Address:</strong> {{this.deliveryAddress}}<br>
+          <form action="/driver/orders/{{this._id}}/fulfill" method="POST" enctype="multipart/form-data"
+            style="display: inline;">
+            {{!-- <input type="file" name="proofOfDelivery" required> --}}
+            <button type="submit">Mark as Delivered</button>
+          </form>
+        </li>
+        {{/each}}
+        {{else}}
+        <li class="no-orders">No picked-up orders at this time.</li>
+        {{/if}}
+      </ul>
+    </div>
   </div>
 </body>
 

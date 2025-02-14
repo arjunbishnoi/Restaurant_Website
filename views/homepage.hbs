@@ -21,10 +21,40 @@
             color: #fff;
             /* White text */
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #121212;
+            /* Slightly lighter black for contrast */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            /* Subtle border for separation */
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        /* Main content styling */
+        .content {
+            text-align: center;
+            margin-top: 80px;
+            /* Space for the navbar */
         }
 
         /* Heading styling */
@@ -32,7 +62,6 @@
             font-size: 2.5rem;
             margin-bottom: 40px;
             letter-spacing: 1px;
-            text-align: center;
         }
 
         /* Button container */
@@ -46,13 +75,14 @@
         /* Button styling */
         .button {
             background-color: #6a0fd3;
-            /* Dark purple for buttons */
+            /* Default button color (purple) */
             color: white;
             font-size: 1.2rem;
             font-weight: bold;
             padding: 15px 30px;
             border: none;
             border-radius: 8px;
+            /* Rounded corners */
             cursor: pointer;
             text-decoration: none;
             text-align: center;
@@ -63,14 +93,12 @@
 
         .button:hover {
             transform: scale(1.05);
-            background-color: #812be4;
-            /* Slightly darker purple on hover */
         }
 
         /* Individual button colors */
         .menu {
             background-color: #64b5f6;
-            /* Soft blue for menu */
+            /* Light blue for menu */
         }
 
         .menu:hover {
@@ -79,13 +107,13 @@
         }
 
         .driver {
-            background-color: #ff9800;
-            /* Orange for driver */
+            background-color: #6a0fd3;
+            /* Purple for driver */
         }
 
         .driver:hover {
-            background-color: #fb8c00;
-            /* Slightly darker orange on hover */
+            background-color: #812be4;
+            /* Slightly darker purple on hover */
         }
 
         .admin {
@@ -101,6 +129,12 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Tasty Bites Restaurant</h1>
+    </div>
+
+    <!-- Main Content -->
     <div class="content">
         <h1>Welcome to Our Service</h1>
         <div class="button-container">

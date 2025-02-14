@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Fulfillment</title>
+  <style>
+    /* Reset default browser styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background-color: #121212;
+      border-radius: 15px;
+      padding: 60px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #222;
+      color: white;
+      outline: none;
+    }
+
+    button[type="submit"] {
+      background-color: #6a0fd3;
+      color: white;
+      font-size: 1rem;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #812be4;
+    }
+
+    .signup-btn {
+      background-color: #ffffff;
+      color: black;
+      font-size: 1rem;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .signup-btn:hover {
+      background-color: #2ce600;
+    }
+
+    .error-message {
+      color: #ff4d4d;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Mark Order as Delivered</h1>
+    <form action="/driver/orders/{{order._id}}/fulfill" method="POST" enctype="multipart/form-data">
+      <p><strong>Order ID:</strong> {{order._id}}</p>
+      <p><strong>Customer:</strong> {{order.customerName}}</p>
+      <p><strong>Address:</strong> {{order.deliveryAddress}}</p>
+      <label for="proofOfDelivery">Upload Proof of Delivery:</label>
+      <input type="file" id="proofOfDelivery" name="proofOfDelivery" required>
+      <button type="submit">Mark as Delivered</button>
+    </form>
+  </div>
+</body>
+</html>
