@@ -4,35 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Menu</title>
-    <link rel="stylesheet" href="/public/images">
+    <link rel="stylesheet" href="/css/menu.css">
 </head>
 <body>
+
 <h1>Welcome to Our Restaurant</h1>
 <h2>Menu</h2>
-<ul>
-    {{#each menuItems}}
-        <li>
-            <img src="{{this.image}}" alt="{{this.name}}">
-            <h3>{{this.name}}</h3>
-            <p>{{this.description}}</p>
-            <p>Price: ${{this.price}}</p>
-        </li>
-    {{/each}}
-</ul>
+
+<ul id="menuList">Loading menu...</ul>
+
+<button onclick="fetchMenu()">Refresh Menu</button>
+
+<script>
+    async function fetchMenu() {
+        try {
+            const response = await fetch('/menu/api');
+            const menuItems = await response.json();
+            const menuList = document.getElementById("menuList");
+
+            menuList.innerHTML = menuItems.length
+                    ? menuItems.map(item => `
+                    <li>
+                        <img src="${item.image}" alt="${item.name}">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p>Price: $${item.price}</p>
+                    </li>`).join('')
+                    : "<p>No menu items available.</p>";
+        } catch {
+            document.getElementById("menuList").innerHTML = "<p>Failed to load menu.</p>";
+        }
+    }
+
+    fetchMenu();
+</script>
+
 </body>
 </html>
-
-// public/css/menu.css
-body {
-font-family: Arial, sans-serif;
-text-align: center;
-}
-
-ul {
-list-style-type: none;
-}
-
-li {
-display: inline-block;
-margin: 20px;
-}

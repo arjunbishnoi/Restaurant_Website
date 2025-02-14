@@ -1,26 +1,31 @@
 const express = require("express");
 const router = express.Router();
 const MenuItem = require("../models/menuItem");
-const Order = require("../models/Order");
+const Order = require("../models/order");
 
-// Fetching Menu Items
-router.get("/menu", async (req, res) => {
+// API Route: Fetch menu items
+router.get("/api", async (req, res) => {
     try {
-        const menuItems = await MenuItem.find();
-        return res.json(menuItems);
-    } catch (err) {
-        return res.json({ error: "Failed to fetch menu" });
+        return res.json(await MenuItem.find());
+    } catch {
+        return res.json([]);
+    }
+});
+
+// Page Route: Render menu page
+router.get("/", async (req, res) => {
+    try {
+        return res.render("menu/menu", { menuItems: await MenuItem.find() });
+    } catch {
+        return res.render("menu/menu", { menuItems: [] });
     }
 });
 
 // Placing an Order
 router.post("/order", async (req, res) => {
     try {
-        const { customerName, deliveryAddress, items } = req.body;
-        const newOrder = new Order({ customerName, deliveryAddress, items });
-        const savedOrder = await newOrder.save();
-        return res.json({ orderId: savedOrder._id, message: "Order placed successfully!" });
-    } catch (err) {
+        return res.json(await new Order(req.body).save());
+    } catch {
         return res.json({ error: "Failed to place order" });
     }
 });
@@ -28,11 +33,9 @@ router.post("/order", async (req, res) => {
 // Order Status
 router.get("/order/:id", async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id);
-        if (!order) return res.json({ error: "Order not found" });
-        return res.json({ status: order.status });
-    } catch (err) {
-        return res.json({ error: "Error fetching order status" });
+        return res.json(await Order.findById(req.params.id));
+    } catch {
+        return res.json({ error: "Order not found" });
     }
 });
 
